@@ -1,144 +1,184 @@
-#include <iostream>
 #include "Shop.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-User::User()
+Shop::Shop()
 {
-	_money = 0;
-	_login = "";
-	_password = "";
-	_phone = "";
+	logined = false;
+	login();
 }
 
-User::~User()
+void Shop::login()
 {
-	_money = 0;
-	_login = "";
-	_password = "";
-	_phone = "";
-}
-
-bool User::setLoging(string login)
-{
-	if (!login.empty())
+	bool exit = false;
+	do
 	{
-		_login = login;
-		return true;
-	}
-	return false;
-}
+		int choice;
+		system("cls");
+		cout << "1. Login\n";
+		cout << "2. Register\n";
+		cin >> choice;
 
-bool User::setPass(string pass)
-{
-	int counter = 0;
-	for (size_t i = 0; i < pass.length(); i++)
-	{
-		if (!(pass[i] >= '!' && pass[i] <= '}'))
+		system("cls");
+		switch (choice)
 		{
-			counter++;
+		case 1:
+			exit = true;
+			break;
+		case 2:
+			addUser();
+			exit = true;
+			break;
+		}
+
+		if (exit)
+		{
+			FILE* f = fopen("config.txt", "r");
+
+			cout << "Enter login: ";
+			cin >> tempLogin;
+			cout << "Enter password: ";
+			cin >> tempPassword;
+
+			char temp[100];
+			string tempStr;
+			char charTemp;
+			int indexTemp;
+			for (int i = 0; (charTemp = fgetc(f)) != '\n'; i++)
+			{
+				temp[i] = charTemp;
+				indexTemp = i;
+			}
+			temp[indexTemp + 1] = '\0';
+
+			tempStr = temp;
+			if (temp == tempLogin)
+			{
+				for (int i = 0; i < strlen(temp); i++)
+				{
+					temp[i] = '\0';
+				}
+				for (int i = 0; (charTemp = fgetc(f)) != '\n'; i++)
+				{
+					temp[i] = charTemp;
+					indexTemp = i;
+				}
+				temp[indexTemp + 1] = '\0';
+
+				tempStr = temp;
+				if (temp == tempPassword)
+				{
+					adminPanel();
+				}
+			}
+
+			fclose(f);
+
+			for (User item : users)
+			{
+				if (item.enter(tempLogin, tempPassword))
+				{
+					logined = true;
+					menu();
+				}
+			}
+			exit = false;
+		}
+
+	} while (!exit);
+}
+
+void Shop::menu()
+{
+	system("cls");
+	do
+	{
+		int choice;
+		cout << "----MENU----\n\n";
+		cout << "Balance: \n";
+		for (User item : users)
+		{
+			if (item.enter(tempLogin, tempPassword))
+			{
+				cout << item.getCash() << "$\n";
+			}
+		}
+		cout << "1. Settings\n";
+		cout << "2. Show products\n";
+		cout << "0. Exit\n";
+		cout << "Enter:___\b\b\b";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 0:
+			return;
+		case 1:
+			break;
+		case 2:
+			buyProducts();
+			break;
+		}
+
+		system("cls");
+	} while (true);
+
+}
+
+void Shop::adminPanel()
+{
+	system("cls");
+	do
+	{
+		int choice;
+		cout << "----AdminPanel----\n\n";
+		cout << "1. Add product\n";
+		cout << "2. Delete product\n";
+		cout << "0. Exit\n";
+		cout << "Enter:___\b\b\b";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 0:
+			return;
+		case 1:
+			addProduct();
+			break;
+		}
+	} while (true);
+}
+
+void Shop::addUser()
+{
+	User newUser;
+	users.push_back(newUser);
+}
+
+void Shop::addProduct()
+{
+	Product temp;
+	products.push_back(temp);
+}
+
+void Shop::buyProducts()
+{
+	for (Product item : products)
+	{
+		char temp;
+		item.info();
+		cout << "\nBuy this? [Y]es or [N]ou\n";
+		cin >> temp;
+		switch (temp)
+		{
+		case 'y':
+			for (User itemUser : users)
+			{
+				if (itemUser.enter(tempLogin, tempPassword))
+				{
+					itemUser.buy(item);
+				}
+			}
 		}
 	}
-	if (counter == 0)
-	{
-		_password = pass;
-		return true;
-	}
-	return false;
-}
-
-bool User::setMoney(int money)
-{
-	if (money >= 0)
-	{
-		_money = money;
-		return true;
-	}
-	return false;
-}
-
-bool User::setPhone(string phone)
-{
-	if (phone.length() == 13 && phone[0] == '+' && phone[1] == '3' && phone[2] == '8' && phone[3] == '0')
-	{
-		_phone = phone;
-		return true;
-	}
-	return false;
-}
-
-bool User::setMail(string mail)
-{
-	if (mail[mail.length() - 1] == 'm' && mail[mail.length() - 2] == 'O' && mail[mail.length() - 3] == 'C' && mail[mail.length() - 4] == '.')
-	{
-		_email = mail;
-		return true;
-	}
-	return false;
-}
-
-bool User::Register()
-{
-	string login, pass, phone, mail,tempPass;
-	int money;
-		do
-		{
-			cout << "Enter login: ";
-			cin >> login;
-			cout << "Enter money: ";
-			cin >> money;
-			cout << "Enter email: ";
-			cin >> mail;
-			cout << "Enter phone: ";
-			cin >> phone;
-			cout << "enter pass: ";
-			cin >> pass;
-			do
-			{
-				cout << "enter pass again: ";
-				cin >> tempPass;
-			} while (tempPass != pass);
-			set(login, pass, money, phone, mail);
-		} while (!check);
-}
-
-bool User::check(string login, string pass, int money, string phone, string mail)
-{
-	if (!setLoging(login) || !setPass(pass) || !setMoney(money) || !setPhone(phone) || !setMail(mail))
-	{
-		return false;
-	}
-	return true;
-}
-
-void User::set(string login, string pass, int money, string phone, string mail)
-{
-	setLoging(login);
-	setPass(pass);
-	setMoney(money);
-	setPhone(phone);
-	setMail(mail);
-}
-
-void User::login()
-{
-	string login, password;
-	do
-	{
-		cout << "enter login: ";
-		cin >> login;
-		if (login != _login)
-			cout << "Wrong login, enter again";
-	} while (login!=_login);
-	do
-	{
-		cout << "enter password: ";
-		cin >> password;
-		if (password != _password)
-			cout << "Wrong password, enter again";
-	} while (password != _password);
-}
-
-void User::addMoney(int money)
-{
-	if (money > 0)
-		setMoney(_money + money);
 }
