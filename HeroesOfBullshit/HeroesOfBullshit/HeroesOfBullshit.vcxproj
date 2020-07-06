@@ -141,6 +141,7 @@
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Barbar.cpp" />
     <ClCompile Include="Caster.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Team.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
@@ -149,6 +150,7 @@
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Barbar.h" />
     <ClInclude Include="Caster.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Team.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>

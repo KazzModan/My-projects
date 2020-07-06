@@ -32,4 +32,11 @@ void Archer::setWeapon(size_t weapon)
 	}
 }
 
+void Archer::print()
+{
+	cout << "---ARCHER---\n";
+	cout << "HP-" << this->getHp()<<endl;
+
+}
+
 

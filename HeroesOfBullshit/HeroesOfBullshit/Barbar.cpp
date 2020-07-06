@@ -32,3 +32,9 @@ void Barbar::setWeapon(size_t weapon)
 		break;
 	}
 }
+
+void Barbar::print()
+{
+	cout << "---BARBAR---\n";
+	cout <<"HP: " <<this->getHp() << endl;
+}

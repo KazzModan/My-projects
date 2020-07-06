@@ -32,3 +32,9 @@ void Caster::setWeapon(size_t weapon)
 	}
 }
 
+void Caster::print()
+{
+	cout << "---CASTER---\n";
+	cout << "HP: " << this->getHp() << endl;
+}
+

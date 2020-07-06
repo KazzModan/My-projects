@@ -13,6 +13,10 @@ public:
 	void AddBarbar(Barbar bard);
 	void AddCaster(Caster cast);
 	void Check();
+	Archer getArc() const { return this->arch[0];}
+	Barbar getBarb() const { return this->barb[0];}
+	Caster getCast() const { return this->casters[0];}
+	void print();
 private:
 	string name;
 	vector <Archer> arch;

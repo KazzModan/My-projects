@@ -42,6 +42,13 @@ void Team::Check()
 		++cIter;
 	}
 }
+void Team::print()
+{
+	cout << "---" << this->name<<"---" << endl;
+	this->arch[0].print();
+	this->barb[0].print();
+	this->casters[0].print();
+}
 void Team::AddCaster(Caster cast)
 {
 	this->casters.push_back(cast);
