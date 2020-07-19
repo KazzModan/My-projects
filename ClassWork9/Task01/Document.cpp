@@ -50,12 +50,8 @@ bool Document::setType(size_t acc)
 {
 	switch (acc)
 	{
-	case 0:
-		_acces = SUCKER;
-		return true;
-		break;
 	case 1:
-		_acces = WORKER;
+		_acces = SUCKER;
 		return true;
 		break;
 	case 2:
@@ -77,6 +73,11 @@ bool Document::setType(size_t acc)
 	}
 }
 
+int Document::getLvlv() const
+{
+	return this->_acces;
+}
+
 Document::Document()
 {
 	_name = "";
@@ -95,9 +96,27 @@ Document::~Document()
 	_size = 0;
 	_acces = NONE;
 }
-Document::Document()
+bool Document::operator>(const Document& doc) const
 {
-	_name = "";
-	_size = 0;
-	_acces = NONE;
+	return (this->getLvlv() > doc.getLvlv());
+}
+bool Document::operator<(const Document& doc) const
+{
+	return (this->getLvlv() < doc.getLvlv());
+}
+bool Document::operator>=(const Document& doc) const
+{
+	return (this->getLvlv() >= doc.getLvlv());
+}
+bool Document::operator<=(const Document& doc) const
+{
+	return (this->getLvlv() < +doc.getLvlv());
+}
+string Document::getName() const
+{
+	return _name;
+}
+size_t Document::getSize() const
+{
+	return _size;
 }

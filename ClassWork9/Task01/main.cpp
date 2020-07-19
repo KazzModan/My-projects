@@ -1,17 +1,22 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include "Document.h"
+#include "Printer.h"
+#include "Spooler.h"
 using namespace std;
 
 int main()
 {
-	stack<int> st;
-	for (size_t i = 0; i < 4; i++)
-	{
-		cout << "in stack" << i + 1 << endl;
-		st.push(i + 1);
-	}
-	
+	Document doc(1024, "anime", 3);
+	Document doc2(1024, "hentai", 2);
 
+	Spooler spooler;
+	spooler.addDoc(doc);
+	spooler.addDoc(doc2);
+
+	Printer printer(spooler);
+
+	printer.WorkWithDoc();
 	return 0;
 }

@@ -140,9 +140,13 @@
   <ItemGroup>
     <ClCompile Include="Document.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Printer.cpp" />
+    <ClCompile Include="Spooler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Document.h" />
+    <ClInclude Include="Printer.h" />
+    <ClInclude Include="Spooler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
