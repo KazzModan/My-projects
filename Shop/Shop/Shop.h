@@ -1,32 +1,27 @@
 #pragma once
-#include "Product.h"
-#include "User.h"
-#include <list>
+#include <iostream>
+
 using namespace std;
 
-class Shop
+class User
 {
-private:
-	list<User> users;
-	list<Product> products;
-
-	bool logined;
-
-	string tempPassword;
-	string tempLogin;
-
 public:
-	Shop();
-
+	User();
+	~User();
+	bool setLoging(string login);
+	bool setPass(string pass);
+	bool setMoney(int money);
+	bool setPhone(string phone);
+	bool setMail(string mail);
+	bool Register();
+	bool check(string login, string pass, int money, string phone, string mail);
+	void set(string login, string pass, int money, string phone, string mail);
 	void login();
-	void menu();
-	void adminPanel();
-
-	void addUser();
-
-	void addProduct();
-	void deleteProduct();
-
-	void buyProducts();
+	void addMoney(int money);
+private:
+	string _login;
+	string _password;
+	int _money;
+	string _phone;
+	string _email;
 };
-
